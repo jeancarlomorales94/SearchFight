@@ -1,8 +1,6 @@
 ﻿using SearchFight.Application.Interface;
 using SearchFight.Domain;
 using SearchFight.Domain.Contracts;
-using SearchFight.Domain.Services;
-using SearchFight.Infrastructure.ReportService.Implementation;
 using SearchFight.Infrastructure.ReportService.Interface;
 using SearchFight.Infrastructure.SearchEngineService.Interface;
 using System;
@@ -20,11 +18,11 @@ namespace SearchFight.Application.Implementation
         private IReportService _reportService;
         private IEnumerable<ISearchEngineService> _searchEngineServices;
 
-        public SearchFightService()
+        public SearchFightService(ISearchFightDomainService searchFightDomainService, IReportService reportService, IEnumerable<ISearchEngineService> searchEngineServices)
         {
-            _searchFightDomainService = new SearchFightDomainService();
-            _reportService = new ReportService();
-            _searchEngineServices = GetSearchEngines();
+            _searchFightDomainService = searchFightDomainService;
+            _reportService = reportService;
+            _searchEngineServices = searchEngineServices;
         }
 
         public async Task ExecuteSearchFight(IEnumerable<string> args)
@@ -60,14 +58,6 @@ namespace SearchFight.Application.Implementation
         private string GetTotalWinner(IEnumerable<SearchResult> searchResults)
         {
             return _searchFightDomainService.GetSearchResultWinner(searchResults);
-        }
-
-        private IEnumerable<ISearchEngineService> GetSearchEngines()
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => typeof(ISearchEngineService).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
-                .Select(type => Activator.CreateInstance(type) as ISearchEngineService);
         }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "SearchFight.Client.ConsoleApp": {
       "commandName": "Project",
-      "commandLineArgs": ".net java python \"ruby in rails\""
+      "commandLineArgs": ".net \"ruby in rails\""
     }
   }
 }
