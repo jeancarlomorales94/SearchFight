@@ -1,5 +1,6 @@
 ﻿using SearchFight.Infrastructure.SearchEngineService.Configuration;
 using SearchFight.Infrastructure.SearchEngineService.Interface;
+using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Text.Json;
@@ -27,6 +28,10 @@ namespace SearchFight.Infrastructure.SearchEngineService.Implementation
             using (var response = await _httpClient.GetAsync(request))
             {
                 var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception(result);
+
                 BingResponse bingResponse = JsonSerializer.Deserialize<BingResponse>(result);
                 return bingResponse.WebPages.TotalEstimatedMatches;
             }

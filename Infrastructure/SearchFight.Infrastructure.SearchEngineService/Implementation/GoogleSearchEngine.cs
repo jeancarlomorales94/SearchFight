@@ -2,6 +2,7 @@
 using SearchFight.Infrastructure.SearchEngineService.Interface;
 using System;
 using System.Configuration;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ namespace SearchFight.Infrastructure.SearchEngineService.Implementation
             using (var response = await _httpClient.GetAsync(request))
             {
                 var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception(result);
+
                 GoogleResponse googleResponse = JsonSerializer.Deserialize<GoogleResponse>(result);
                 return Convert.ToInt64(googleResponse.SearchInformation.TotalResults);
             }
