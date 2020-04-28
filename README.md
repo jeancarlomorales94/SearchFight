@@ -55,7 +55,7 @@ SearchFight is built with .NET Core 3.1, you can publish it as "self contained".
 ```
 dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true
 ```
-You can use IL Linker to omits DLL’s that aren not used and reduce the file size.
+You can use IL Linker to omit DLL’s that are not used and reduce the file size.
 Modify the csproj and add PublishTrimmed = true.
 ```
 <Project Sdk="Microsoft.NET.Sdk">
