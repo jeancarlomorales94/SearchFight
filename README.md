@@ -41,7 +41,7 @@ Bing Cognitive Service API has a limit of 3 requests per second and 1000 request
 ```
 
 ## Search Engines
-SearchFight supports multiple search engines. You can add new ones but hey have to implement ISearchEngineService.
+SearchFight supports multiple search engines. You can add new ones but they have to implement ISearchEngineService.
 ```
 public interface ISearchEngineService
 {
